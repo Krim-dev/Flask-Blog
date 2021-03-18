@@ -1,0 +1,55 @@
+{% extends "base.html" %} 
+{% block title %}Home{% endblock %} 
+
+{% block content %}
+	
+	<header class="masthead" style="background-image: url('{{ url_for('static', filename='home-bg.jpg') }}')">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 col-md-10 mx-auto">
+					<div class="page-heading">
+						<h1>Posts</h1>
+						<span class="subheading">View all posts that have been created</span>
+			  		</div>
+    			</div>
+		  </div>
+		</div>
+  </header>
+  	{% with messages = get_flashed_messages(with_categories=true) %}
+		{% if messages %}
+			{% for category, message in messages %}
+				<div class="alert alert-{{ category }} alert-dismissable fade show" role="alert">
+					{{ message }}
+					<button type="button" class="close" data-dismiss="alert">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+  			{% endfor %}
+		{% endif %}
+	{% endwith %}
+	
+
+	 <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+        {% for post in posts %}
+          <div class="post-preview">
+            <a href="{{ url_for('views.post', post_id=post.id) }}">
+              <h2 class="post-title">
+                {{ post.title }}
+              </h2>
+              <h3 class="post-subtitle">
+                {{ post.subtitle }}
+              </h3>
+            </a>
+            <p class="post-meta">Posted by {{ post.author.first_name }} on
+             	{{ post.date_posted.strftime('%B %d ,%Y') }}</p>
+          </div>
+          {% endfor %}
+          <hr>
+        </div>
+      </div>
+    </div>
+	<hr>	
+{% endblock %}

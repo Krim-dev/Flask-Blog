@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block content %}
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url('{{ url_for('static', filename='post-bg.jpg') }}')">
+    <div class="overlay">akrm</div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="post-heading">
+            <h1>{{ post.title }}</h1>
+            <h2 class="subheading">{{ post.subtitle }}</h2>
+            <span class="meta">Posted by 
+              {{ post.author.first_name }}
+              on {{ post.date_posted.strftime('%B %d ,%Y') }}
+              {% if post.author.first_name == user.first_name %}
+              	<div class="mt-5">
+					<a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('views.update_post', post_id=post.id) }}">Update</a>
+					<button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
+				</div>
+              {% endif %}
+          	</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissable fade show" role="alert">
+          {{ message }}
+          <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+  <!-- Post Content -->
+  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteModalLabel">Delete Post?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <form action="{{ url_for('views.delete_post', post_id=post.id) }}" method="POST">
+            <input class="btn btn-danger" type="submit" value="Delete">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <article>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+        	{{ post.content }}
+        </div>
+      </div>
+    </div>
+  </article>
+
+
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url('{{ url_for('static', filename='about-bg.jpg') }}')">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="page-heading">
+            <h1>About Me</h1>
+            <span class="subheading">This is what I do.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissable fade show" role="alert">
+          {{ message }}
+          <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <p>Mon Nom est akram el omrani j'ai 15 ans.
+          <br>
+          Je suis Un élève de tronc commun lycée razzi.<br>
+          Une vue sur ma famille :<br> 
+          Ma mère Salwa Sabouri.
+          Mon père abdeljebbar el omrani <br>
+          et mes frères : yasser et sami
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+{% endblock %}
